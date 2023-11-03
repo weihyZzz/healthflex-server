@@ -47,7 +47,12 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.2.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "typeorm": "^0.3.10",
+    "class-validator": "^0.13.2",
+    "@nestjs/typeorm": "^9.0.1",
+    "mysql2": "^2.3.3"
+    
   },
   "jest": {
     "moduleFileExtensions": [
