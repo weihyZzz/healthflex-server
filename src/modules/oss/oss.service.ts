@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import * as OSS from 'ali-oss';
 import * as dayjs from 'dayjs';
 import { OSSType } from './dto/oss.type';
-import { aliyunCredentials } from 'tokenconfig';
+import { aliyunConfig } from 'tokenconfig';
 @Injectable()
 export class OSSService {
   //   获取签名
   async getSignature(): Promise<OSSType> {
     const config = {
-      accessKeyId: aliyunCredentials.accessKeyId,
-      accessKeySecret: aliyunCredentials.accessKeySecret,
+      accessKeyId: aliyunConfig.accessKeyId,
+      accessKeySecret: aliyunConfig.accessKeySecret,
       bucket: 'healthflex',
       dir: 'images/',
     };

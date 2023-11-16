@@ -37,7 +37,10 @@
     "ali-oss": "^6.17.1",
     "dayjs": "^1.11.7",
     "buffer": "^6.0.3",
-    "typeorm": "^0.3.10"
+    "typeorm": "^0.3.10",
+    "@alicloud/dysmsapi20170525": "^2.0.23",
+    "@alicloud/openapi-client": "^0.4.4",
+    "@alicloud/tea-util": "^1.4.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
