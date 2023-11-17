@@ -12,7 +12,7 @@ export class AuthService {
   //   发送短信验证码
   async sendCodeMsg(tel: string): Promise<boolean> {
     const user = await this.userService.findByTel(tel);
-    // 做验证码过期的校验
+    // 禁止频繁发送验证码
     if (user) {
       const diffTime = dayjs().diff(dayjs(user.codeCreateTimeAt));
       if (diffTime < 60 * 1000) {
