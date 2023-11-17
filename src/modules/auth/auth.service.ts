@@ -5,11 +5,20 @@ import { getRandomCode } from 'src/utils';
 import { aliyunConfig } from 'tokenconfig';
 import { UserService } from '../user/user.service';
 import { msgClient } from 'src/utils/msg';
+import * as dayjs from 'dayjs';
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) {}
   //   发送短信验证码
   async sendCodeMsg(tel: string): Promise<boolean> {
+    const user = await this.userService.findByTel(tel);
+    // 做验证码过期的校验
+    if (user) {
+      const diffTime = dayjs().diff(dayjs(user.codeCreateTimeAt));
+      if (diffTime < 60 * 1000) {
+        return false;
+      }
+    }
     const code = getRandomCode();
     const sendSmsRequest = new $Dysmsapi20170525.SendSmsRequest({
       signName: aliyunConfig.signName,
@@ -21,7 +30,6 @@ export class AuthService {
     try {
       // 复制代码运行请自行打印 API 的返回值
       await msgClient.sendSmsWithOptions(sendSmsRequest, runtime);
-      const user = await this.userService.findByTel(tel);
       if (user) {
         const result = await this.userService.updateCode(user.id, code);
         if (result) {
