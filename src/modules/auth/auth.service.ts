@@ -6,17 +6,26 @@ import { aliyunConfig } from 'tokenconfig';
 import { UserService } from '../user/user.service';
 import { msgClient } from 'src/utils/msg';
 import * as dayjs from 'dayjs';
+import { Result } from 'src/common/dto/result.type';
+import {
+  CODE_NOT_EXPIRE,
+  SUCCESS,
+  UPDATE_ERROR,
+} from 'src/common/constants/code';
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) {}
   //   发送短信验证码
-  async sendCodeMsg(tel: string): Promise<boolean> {
+  async sendCodeMsg(tel: string): Promise<Result> {
     const user = await this.userService.findByTel(tel);
     // 禁止频繁发送验证码
     if (user) {
       const diffTime = dayjs().diff(dayjs(user.codeCreateTimeAt));
       if (diffTime < 60 * 1000) {
-        return false;
+        return {
+          code: CODE_NOT_EXPIRE,
+          message: '验证码未过期',
+        };
       }
     }
     const code = getRandomCode();
@@ -28,14 +37,19 @@ export class AuthService {
     });
     const runtime = new $Util.RuntimeOptions({});
     try {
-      // 复制代码运行请自行打印 API 的返回值
       await msgClient.sendSmsWithOptions(sendSmsRequest, runtime);
       if (user) {
         const result = await this.userService.updateCode(user.id, code);
         if (result) {
-          return true;
+          return {
+            code: SUCCESS,
+            message: '获取验证码成功',
+          };
         }
-        return false;
+        return {
+          code: UPDATE_ERROR,
+          message: '更新验证码失败',
+        };
       }
       // 如果用户不存在
       const result = await this.userService.create({
@@ -44,9 +58,15 @@ export class AuthService {
         codeCreateTimeAt: new Date(),
       });
       if (result) {
-        return true;
+        return {
+          code: SUCCESS,
+          message: '新建用户成功',
+        };
       }
-      return false;
+      return {
+        code: UPDATE_ERROR,
+        message: '新建用户失败',
+      };
     } catch (error) {
       // 如有需要，请打印 error
       Util.assertAsString(error.message);
