@@ -2,7 +2,7 @@ import { UserService } from './../user/user.service';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import * as dayjs from 'dayjs';
-import * as md5 from 'md5';
+// import * as md5 from 'md5';
 import { Result } from 'src/common/dto/result.type';
 import {
   ACCOUNT_EXIST,
@@ -86,7 +86,7 @@ export class AuthResolver {
     // 账号不存在则进行注册
     const res = await this.studentService.create({
       account,
-      password: md5(password),
+      password: password,
     });
     if (res) {
       return {
@@ -97,6 +97,36 @@ export class AuthResolver {
     return {
       code: REGISTER_ERROR,
       message: '注册失败',
+    };
+  }
+
+  @Mutation(() => Result, { description: '学员登录' })
+  async studentLogin(
+    @Args('account') account: string,
+    @Args('password') password: string,
+  ): Promise<Result> {
+    // 先进行账号的格式校验
+    const result = accountAndPwdValidate(account, password);
+    if (result.code !== SUCCESS) {
+      return result;
+    }
+    // 查找用户的表数据
+    const student = await this.studentService.findByAccount(account);
+    if (!student) {
+      return {
+        code: ACCOUNT_NOT_EXIST,
+        message: '账户不存在',
+      };
+    }
+    if (student.password === password) {
+      return {
+        code: SUCCESS,
+        message: '登录成功',
+      };
+    }
+    return {
+      code: LOGIN_ERROR,
+      message: '登录失败，账号或密码不对',
     };
   }
 }
