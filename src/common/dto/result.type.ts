@@ -27,13 +27,28 @@ export function createResult<T>(ItemType: ClassType<T>): ClassType<IResult<T>> {
   }
   return Result;
 }
-// export function createResults<T>(
-//   ItemType: ClassType<T>,
-// ): ClassType<IResult<T>> {}
+export function createResults<T>(
+  ItemTypes: ClassType<T>,
+): ClassType<IResults<T>> {
+  @ObjectType()
+  class Results {
+    @Field(() => Int)
+    code: number;
+    @Field(() => String)
+    message: string;
+    @Field(() => [ItemTypes], { nullable: true })
+    data?: T[];
+    @Field(() => Page, { nullable: true })
+    page?: Page;
+  }
+  return Results;
+}
 @ObjectType()
 export class Result {
   @Field(() => Int)
   code: number;
-  @Field(() => String)
-  message: string;
+  @Field(() => String, { nullable: true })
+  message?: string;
+  @Field(() => String, { nullable: true })
+  data?: string;
 }

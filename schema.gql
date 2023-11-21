@@ -28,7 +28,8 @@ type OSSType {
 
 type Result {
   code: Int!
-  message: String!
+  message: String
+  data: String
 }
 
 type Query {
@@ -54,6 +55,9 @@ type Mutation {
 
   """登录"""
   login(tel: String!, code: String!): Result!
+
+  """学员注册"""
+  studentRegister(account: String!, password: String!): Result!
 }
 
 input UserInput {
