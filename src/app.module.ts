@@ -13,10 +13,11 @@ import { StudentModule } from './modules/student/student.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '43.143.180.49',
+      // host: '43.143.180.49',
+      host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '123456',
+      password: 'whywhy770608',
       database: 'healthflex',
       entities: [`${__dirname}/../modules/**/*.entity{.ts,.js}`],
       logging: true,

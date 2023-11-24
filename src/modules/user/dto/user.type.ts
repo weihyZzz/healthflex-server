@@ -10,4 +10,6 @@ export class UserType {
   desc: string;
   @Field()
   account: string;
+  @Field({ description: 'tel' })
+  tel: string;
 }

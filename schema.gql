@@ -7,6 +7,9 @@ type UserType {
   name: String!
   desc: String!
   account: String!
+
+  """tel"""
+  tel: String!
 }
 
 type OSSType {
@@ -35,6 +38,9 @@ type Result {
 type Query {
   """使用 ID 查询用户"""
   find(id: String!): UserType!
+
+  """使用 ID 查询用户"""
+  getUserInfo: UserType!
 
   """获取oss相关信息"""
   getOSSInfo: OSSType!
