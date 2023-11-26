@@ -12,8 +12,6 @@ export class AppController {
       name: 'alpjo',
       desc: '普通用户',
       tel: '18334331233',
-      password: '123456',
-      account: 'admin',
     });
   }
 

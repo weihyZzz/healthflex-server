@@ -49,7 +49,7 @@ export class AuthResolver {
         message: '验证码不存在',
       };
     }
-    if (dayjs().diff(dayjs(user.codeCreateTimeAt)) > 60 * 60 * 1000) {
+    if (dayjs().diff(dayjs(user.codeCreateTimeAt)) > 60 * 60 * 60 * 1000) {
       return {
         code: CODE_NOT_EXPIRE,
         message: '验证码过期',

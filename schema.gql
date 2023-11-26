@@ -4,12 +4,24 @@
 
 type UserType {
   id: String!
+
+  """昵称"""
   name: String!
+
+  """简介"""
   desc: String!
-  account: String!
 
   """tel"""
   tel: String!
+
+  """头像"""
+  avatar: String
+}
+
+type Result {
+  code: Int!
+  message: String
+  data: String
 }
 
 type OSSType {
@@ -27,12 +39,9 @@ type OSSType {
 
   """buctek域名"""
   host: String!
-}
 
-type Result {
-  code: Int!
-  message: String
-  data: String
+  """dir"""
+  dir: String!
 }
 
 type Query {
@@ -51,7 +60,7 @@ type Mutation {
   create(params: UserInput!): Boolean!
 
   """更新用户"""
-  update(id: String!, params: UserInput!): Boolean!
+  updateUserInfo(id: String!, params: UserInput!): Result!
 
   """删除一个用户"""
   del(id: String!): Boolean!
@@ -70,6 +79,12 @@ type Mutation {
 }
 
 input UserInput {
+  """昵称"""
   name: String!
+
+  """简介"""
   desc: String!
+
+  """头像"""
+  avatar: String!
 }

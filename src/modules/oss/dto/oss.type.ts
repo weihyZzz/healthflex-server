@@ -12,4 +12,6 @@ export class OSSType {
   accessId: string;
   @Field({ description: 'buctek域名' })
   host: string;
+  @Field({ description: 'dir' })
+  dir: string;
 }
