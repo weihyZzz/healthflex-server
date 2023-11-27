@@ -125,9 +125,13 @@ export class AuthResolver {
       };
     }
     if (student.password === password) {
+      const token = this.jwtService.sign({
+        id: student.id,
+      });
       return {
         code: SUCCESS,
         message: '登录成功',
+        data: token,
       };
     }
     return {

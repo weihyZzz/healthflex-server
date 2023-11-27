@@ -4,7 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import { UserInput } from './dto/user-input.type';
 import { UserType } from './dto/user.type';
 import { UserService } from './user.service';
-import { GqlAuthGuard } from 'src/common/guards/auth.guards';
+import { GqlAuthGuard } from 'src/common/guards/auth.guard';
 import { Result } from 'src/common/dto/result.type';
 
 @Resolver()

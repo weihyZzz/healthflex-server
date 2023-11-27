@@ -19,12 +19,14 @@ export class Student {
   @Column({
     comment: '手机号',
     nullable: true,
+    default: '',
   })
   tel: string;
 
   @Column({
     comment: '头像',
     nullable: true,
+    default: '',
   })
   avatar: string;
 
