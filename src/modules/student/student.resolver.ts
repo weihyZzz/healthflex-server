@@ -8,20 +8,20 @@ import { STUDENT_NOT_EXIST, SUCCESS } from 'src/common/constants/code';
 import { StudentInput } from './dto/student.input';
 import { Result } from 'src/common/dto/result.type';
 import { GqlAuthGuard } from 'src/common/guards/auth.guard';
+import { CurUserId } from 'src/common/decorators/current-user.decorator';
 
 @Resolver(() => StudentType)
 @UseGuards(GqlAuthGuard)
 export class StudentResolver {
   constructor(private readonly studentService: StudentService) {}
   @Query(() => StudentResult)
-  async getStudentInfo(@Context() cxt: any): Promise<StudentResult> {
-    const id = cxt.req.user.id;
+  async getStudentInfo(@CurUserId() id: string): Promise<StudentResult> {
     const result = await this.studentService.findById(id)
     if (result) {
       return {
         code: SUCCESS,
         data: result,
-        message: '获取成功'
+        message: '获取成功',
       }
     }
     return {
@@ -30,8 +30,7 @@ export class StudentResolver {
     }
   }
   @Mutation(() => StudentResult)
-  async commitStudentInfo(@Args('params') params: StudentInput, @Context() cxt: any,): Promise<Result> {
-    const id = cxt.req.user.id;
+  async commitStudentInfo(@Args('params') params: StudentInput, @CurUserId() id: string,): Promise<Result> {
     const student = await this.studentService.findById(id)
     if (student) {
       const res = await this.studentService.updateById(student.id, params)
