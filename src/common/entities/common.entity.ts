@@ -14,6 +14,7 @@ export class CommonEntity {
   @Column({
     comment: '创建时间',
     type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
