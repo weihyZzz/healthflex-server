@@ -1,4 +1,3 @@
-import { IsNotEmpty } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { Column, Entity } from 'typeorm';
 
@@ -11,7 +10,6 @@ export class Student extends CommonEntity {
     comment: '昵称',
     default: '',
   })
-  @IsNotEmpty()
   name: string;
 
   @Column({
