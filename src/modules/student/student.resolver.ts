@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { StudentType } from './dto/student.type';
 import { StudentService } from './student.service';
 import { UseGuards } from '@nestjs/common';
@@ -49,17 +49,18 @@ export class StudentResolver {
   }
   @Query(() => StudentResults)
   async getStudents(@Args('page') page: PageInput): Promise<StudentResults> {
-    const { start, length } = page;
+    const { pageNum, pageSize } = page;
     const [ results, total ] = await this.studentService.findStudents({
-      start, length
+      start: (pageNum - 1) * pageSize,
+      length: pageSize,
     })
     return {
       code: SUCCESS,
       data: results,
       message: '获取成功',
       page: {
-        start,
-        length,
+        pageNum,
+        pageSize,
         total,
       }
     }

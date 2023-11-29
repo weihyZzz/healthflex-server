@@ -8,11 +8,13 @@ import { CommonType } from 'src/common/dto/common.type';
 export class StudentType extends CommonType {
   @Field({
     description: '昵称',
+    nullable: true,
   })
   name: string;
 
   @Field({
     description: '手机号',
+    nullable: true,
   })
   tel: string;
 
