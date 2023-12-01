@@ -92,7 +92,7 @@ export class OrganizationResolver {
     };
   }
   @Query(() => OrganizationResults)
-  async getOrganization(
+  async getOrganizations(
     @Args('page') page: PageInput,
   ): Promise<OrganizationResults> {
     const { pageNum, pageSize } = page;
