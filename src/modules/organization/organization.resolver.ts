@@ -18,6 +18,8 @@ import { Result } from 'src/common/dto/result.type';
 import { OrganizationService } from './organization.service';
 import { PageInput } from 'src/common/dto/page.input';
 import { OrgImageService } from '../orgImage/orgImage.service';
+import { FindOptionsWhere, Like } from 'typeorm';
+import { Organization } from './models/organization.entity';
 
 @Resolver(() => OrganizationType)
 @UseGuards(GqlAuthGuard)
@@ -99,11 +101,18 @@ export class OrganizationResolver {
   @Query(() => OrganizationResults)
   async getOrganizations(
     @Args('page') page: PageInput,
+    @CurUserId() userId: string,
+    @Args('name', { nullable: true }) name?: string,
   ): Promise<OrganizationResults> {
     const { pageNum, pageSize } = page;
+    const where: FindOptionsWhere<Organization> = { createdBy: userId };
+    if (name) {
+      where.name = Like(`%${name}%`);
+    }
     const [results, total] = await this.organizationService.findOrganizations({
       start: (pageNum - 1) * pageSize,
       length: pageSize,
+      where,
     });
     return {
       code: SUCCESS,
