@@ -1,4 +1,9 @@
-import { ORG_FAIL, ORG_NOT_EXIST, SUCCESS } from 'src/common/constants/code';
+import {
+  ORG_DEL_FAIL,
+  ORG_FAIL,
+  ORG_NOT_EXIST,
+  SUCCESS,
+} from 'src/common/constants/code';
 import {
   OrganizationResult,
   OrganizationResults,
@@ -109,6 +114,30 @@ export class OrganizationResolver {
         total,
       },
       message: '获取成功',
+    };
+  }
+  @Mutation(() => Result)
+  async deleteOrganization(
+    @Args('id') id: string,
+    @CurUserId() userId: string,
+  ): Promise<Result> {
+    const result = await this.organizationService.findById(id);
+    if (result) {
+      const delRes = await this.organizationService.deleteById(id, userId);
+      if (delRes) {
+        return {
+          code: SUCCESS,
+          message: '删除成功',
+        };
+      }
+      return {
+        code: ORG_DEL_FAIL,
+        message: '删除失败',
+      };
+    }
+    return {
+      code: ORG_NOT_EXIST,
+      message: '机构不存在',
     };
   }
 }
