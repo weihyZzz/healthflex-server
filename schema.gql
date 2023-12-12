@@ -67,6 +67,12 @@ type StudentType {
 
   """头像"""
   avatar: String
+
+  """账号"""
+  account: String
+
+  """openid"""
+  openid: String
 }
 
 """

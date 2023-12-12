@@ -1,5 +1,5 @@
-import { Field, ObjectType } from '@nestjs/graphql';
 import { CommonType } from 'src/common/dto/common.type';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 /**
  * 学员
@@ -23,4 +23,16 @@ export class StudentType extends CommonType {
     nullable: true,
   })
   avatar: string;
+
+  @Field({
+    description: '账号',
+    nullable: true,
+  })
+  account: string;
+
+  @Field({
+    description: 'openid',
+    nullable: true,
+  })
+  openid?: string;
 }
