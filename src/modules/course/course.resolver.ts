@@ -16,7 +16,7 @@ import { CourseService } from './course.service';
 import { CurUserId } from 'src/common/decorators/current-user.decorator';
 import { PageInput } from 'src/common/dto/page.input';
 import { CourseResult, CourseResults } from './dto/result-course.output';
-import { CourseInput } from './dto/course.input';
+import { CourseInput, PartialCourseInput } from './dto/course.input';
 
 @Resolver(() => CourseType)
 @UseGuards(GqlAuthGuard)
@@ -41,7 +41,7 @@ export class CourseResolver {
 
   @Mutation(() => CourseResult)
   async commitCourseInfo(
-    @Args('params') params: CourseInput,
+    @Args('params') params: PartialCourseInput,
     @CurUserId() userId: string,
     @Args('id', { nullable: true }) id: string,
   ): Promise<Result> {
