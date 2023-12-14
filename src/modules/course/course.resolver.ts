@@ -17,6 +17,7 @@ import { CurUserId } from 'src/common/decorators/current-user.decorator';
 import { PageInput } from 'src/common/dto/page.input';
 import { CourseResult, CourseResults } from './dto/result-course.output';
 import { CourseInput, PartialCourseInput } from './dto/course.input';
+import { CurOrgId } from 'src/common/decorators/current-org.decorator';
 
 @Resolver(() => CourseType)
 @UseGuards(GqlAuthGuard)
@@ -43,12 +44,16 @@ export class CourseResolver {
   async commitCourseInfo(
     @Args('params') params: PartialCourseInput,
     @CurUserId() userId: string,
+    @CurOrgId() orgId: string,
     @Args('id', { nullable: true }) id: string,
   ): Promise<Result> {
     if (!id) {
       const res = await this.courseService.create({
         ...params,
         createdBy: userId,
+        org: {
+          id: orgId,
+        },
       });
       if (res) {
         return {
@@ -88,10 +93,14 @@ export class CourseResolver {
   async getCourses(
     @Args('page') page: PageInput,
     @CurUserId() userId: string,
+    @CurOrgId() orgId: string,
     @Args('name', { nullable: true }) name?: string,
   ): Promise<CourseResults> {
     const { pageNum, pageSize } = page;
-    const where: FindOptionsWhere<Course> = { createdBy: userId };
+    const where: FindOptionsWhere<Course> = {
+      createdBy: userId,
+      org: { id: orgId },
+    };
     if (name) {
       where.name = Like(`%${name}%`);
     }
