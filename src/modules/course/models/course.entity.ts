@@ -1,8 +1,9 @@
 import { IsInt, IsNotEmpty, Min } from 'class-validator';
 import { CommonEntity } from 'src/common/entities/common.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { ReducibleTimeType } from '../dto/common.type';
 import { Organization } from 'src/modules/organization/models/organization.entity';
+import { Card } from 'src/modules/card/models/card.entity';
 
 /**
  * 组件
@@ -74,4 +75,6 @@ export class Course extends CommonEntity {
     cascade: true,
   })
   org: Organization;
+  @OneToMany(() => Card, (org) => org.course)
+  cards: Card;
 }
