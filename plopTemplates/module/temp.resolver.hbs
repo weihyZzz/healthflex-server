@@ -6,17 +6,17 @@ import {
   COURSE_NOT_EXIST,
   COURSE_UPDATE_FAIL,
 } from './../../common/constants/code';
-import { Result } from '@/common/dto/result.type';
+import { Result } from 'src/common/dto/result.type';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from '@/common/guards/auth.guard';
-import { SUCCESS } from '@/common/constants/code';
+import { GqlAuthGuard } from 'src/common/guards/auth.guard';
+import { SUCCESS } from 'src/common/constants/code';
 import { {{pascalCase name}}Result, {{pascalCase name}}Results } from './dto/result-{{kebabCase name}}.output';
 import { {{pascalCase name}}Input } from './dto/{{kebabCase name}}.input';
 import { {{pascalCase name}}Type } from './dto/{{kebabCase name}}.type';
 import { {{pascalCase name}}Service } from './{{kebabCase name}}.service';
-import { CurUserId } from '@/common/decorators/current-user.decorator';
-import { PageInput } from '@/common/dto/page.input';
+import { CurUserId } from 'src/common/decorators/current-user.decorator';
+import { PageInput } from 'src/common/dto/page.input';
 
 @Resolver(() => {{pascalCase name}}Type)
 @UseGuards(GqlAuthGuard)
