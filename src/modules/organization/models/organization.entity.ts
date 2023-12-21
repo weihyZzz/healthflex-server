@@ -3,6 +3,7 @@ import { CommonEntity } from 'src/common/entities/common.entity';
 import { Card } from 'src/modules/card/models/card.entity';
 import { Course } from 'src/modules/course/models/course.entity';
 import { OrgImage } from 'src/modules/orgImage/models/orgImage.entity';
+import { Product } from 'src/modules/product/models/product.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 /**
@@ -83,5 +84,7 @@ export class Organization extends CommonEntity {
   @OneToMany(() => Course, (course) => course.org)
   courses: Course[];
   @OneToMany(() => Card, (card) => card.org)
-  cards: Card;
+  cards: Card[];
+  @OneToMany(() => Product, (product) => product.org)
+  products: Product[];
 }
