@@ -1,7 +1,8 @@
 import { Organization } from './../../organization/models/organization.entity';
 import { CommonEntity } from 'src/common/entities/common.entity';
 import { IsNotEmpty, Min } from 'class-validator';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import { Card } from 'src/modules/card/models/card.entity';
 
 /**
  * 商品
@@ -74,4 +75,9 @@ export class Product extends CommonEntity {
     cascade: true,
   })
   org: Organization;
+  @ManyToMany(() => Card, { cascade: true })
+  @JoinTable({
+    name: 'product_card',
+  })
+  cards: Card[];
 }

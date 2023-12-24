@@ -1,6 +1,7 @@
 import { OrganizationType } from './../../organization/dto/organization.type';
 import { CommonType } from 'src/common/dto/common.type';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { CardType } from 'src/modules/card/dto/card.type';
 
 @ObjectType()
 export class ProductType extends CommonType {
@@ -59,4 +60,9 @@ export class ProductType extends CommonType {
     description: '门店信息',
   })
   org: OrganizationType;
+  @Field(() => [CardType], {
+    description: '消费卡',
+    nullable: true,
+  })
+  cards?: CardType[];
 }
